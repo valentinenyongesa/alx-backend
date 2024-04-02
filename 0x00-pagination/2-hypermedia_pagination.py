@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Simple Pagination
+Hypermedia Pagination
 """
 
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict, Union
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -45,8 +45,7 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Returns the appropriate page of the dataset
-        based on pagination parameters.
+        Returns the appropriate page of the dataset based on pagination parameters.
 
         Args:
             page (int): The page number.
@@ -66,25 +65,39 @@ class Server:
 
         return dataset[start_index:end_index]
 
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Union[int, List[List], None]]:
+        """
+        Returns a dictionary containing hypermedia pagination information.
+
+        Args:
+            page (int): The current page number.
+            page_size (int): The number of items per page.
+
+        Returns:
+            Dict[str, Union[int, List[List], None]]: The dictionary containing pagination information.
+        """
+        page_data = self.get_page(page, page_size)
+        next_page = page + 1 if len(self.get_page(page + 1, page_size)) > 0 else None
+        prev_page = page - 1 if page > 1 else None
+        total_pages = math.ceil(len(self.dataset()) / page_size)
+
+        return {
+            "page_size": len(page_data),
+            "page": page,
+            "data": page_data,
+            "next_page": next_page,
+            "prev_page": prev_page,
+            "total_pages": total_pages
+        }
+
 
 if __name__ == "__main__":
     server = Server()
 
-    try:
-        should_err = server.get_page(-10, 2)
-    except AssertionError:
-        print("AssertionError raised with negative values")
-
-    try:
-        should_err = server.get_page(0, 0)
-    except AssertionError:
-        print("AssertionError raised with 0")
-
-    try:
-        should_err = server.get_page(2, 'Bob')
-    except AssertionError:
-        print("AssertionError raised when page and/or page_size are not ints")
-
-    print(server.get_page(1, 3))
-    print(server.get_page(3, 2))
-    print(server.get_page(3000, 100))
+    print(server.get_hyper(1, 2))
+    print("---")
+    print(server.get_hyper(2, 2))
+    print("---")
+    print(server.get_hyper(100, 3))
+    print("---")
+    print(server.get_hyper(3000, 100))
