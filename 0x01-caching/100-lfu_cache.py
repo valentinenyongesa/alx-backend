@@ -5,11 +5,9 @@ LFUCache module
 
 from base_caching import BaseCaching
 
-
 class LFUCache(BaseCaching):
     """
-    LFUCache class inherits from BaseCaching
-    and is a caching system using LFU algorithm
+    LFUCache class inherits from BaseCaching and is a caching system using LFU algorithm
     """
 
     def __init__(self):
@@ -58,7 +56,6 @@ class LFUCache(BaseCaching):
             return self.cache_data[key][0]
 
         return None
-
 
 if __name__ == "__main__":
     my_cache = LFUCache()
