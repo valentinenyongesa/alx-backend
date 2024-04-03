@@ -8,7 +8,8 @@ from base_caching import BaseCaching
 
 class FIFOCache(BaseCaching):
     """
-    FIFOCache class inherits from BaseCaching and is a caching system using FIFO algorithm
+    FIFOCache class inherits from BaseCaching
+    and is a caching system using FIFO algorithm
     """
 
     def __init__(self):
