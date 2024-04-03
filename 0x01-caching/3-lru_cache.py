@@ -8,7 +8,8 @@ from base_caching import BaseCaching
 
 class LRUCache(BaseCaching):
     """
-    LRUCache class inherits from BaseCaching and is a caching system using LRU algorithm
+    LRUCache class inherits from BaseCaching
+    and is a caching system using LRU algorithm
     """
 
     def __init__(self):
