@@ -7,3 +7,4 @@ This project covers the following concepts:
 5. NodeJS
 6. ExpressJS
 7. Kue
+The project encampasses how to run a Redis machine on your server
